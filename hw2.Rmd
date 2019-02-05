@@ -1,0 +1,78 @@
+---
+title: 'Homework #2'
+author: "Alicia Hauglie; ahauglie"
+output: html_document
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+**HOMEWORK 2**
+
+## R commands
+1. Today's temperature has a high of 15 and a low of -10 degree fahrenheit.  Find the corresponding degress in celsius and storage it in a (single) vector named `cel`. Print the variable.
+```{r}
+h <- 15
+l <- (-10) 
+cel <- c((h-32)*(5/9), (l-32)*(5/9))
+cel
+```
+2. Create a vector of length 200. The odd entries should be 1 and even entries should be 0. Storage the created in a variable named `vec200` and print.
+```{r}
+vec200 <- rep(c(1,0),length.out=200)
+vec200
+```
+3. How many perfect squares are there between 1 and 1001? Storage the answer in a  variable named `numPerfect` and print. You may want to look at `?round`.
+```{r}
+numPerfect<- floor(sqrt(1001))
+numPerfect
+```
+## Cars and mileage
+For this part we will use the `mpg` data set, you can access the data by loading the package `ggplot2` into your R session by executing the command 
+`library(ggplot2)`. The `mpg` data includes information about fuel economy of popular car models
+for the years 1999 and 2008 as collected by the US Environmental Protection Agency. An answer should include a short paragraph of text for the explanation to a (human) reader, together with appropriate R code, outputs, and graphs.
+
+Most exercises are from the ggplot2 book section 2.2.1. You might find it helpful for working on the homework to read through this section.
+
+1. What are the 3 most fuel-efficient models in terms of highway mileage? Storage the data frame (with 3 rows) containing all information of these three cars in a variable named `top3` and print.
+```{r}
+library(ggplot2)
+top3<- head((mpg[order(-mpg$hwy),]),3)
+top3
+```
+2. How many different compact models are included in this dataset? Storage the answer in  a variable named `numCompact` and print.
+```{r}
+compact <- mpg[mpg$class=='compact', ]
+numCompact <- length(unique(compact$model))
+numCompact
+```
+3. Create a scatterplot of `hwy` and `cty` and describe the relationship. Why are there so few points visible?
+```{r}
+plot(mpg$hwy, mpg$cty)
+
+#there are so few points visible because there are many points that overlap, many models of cars have the same city and hwy mpgs as other cars, you can see some circles are darker than others because they have multiple 
+```
+4. Are cars in 2008 more fuel efficient than cars in 1999? Use graphs *and* summary statistics to answer this question. 
+```{r}
+cars2008<-mpg[mpg$year=='2008',]
+cars1999<-mpg[mpg$year=='1999',]
+hwy2008mean<-mean(cars2008$hwy, na.rm=TRUE)
+hwy1999mean<-mean(cars1999$hwy, na.rm=TRUE)
+hwy2008mean
+hwy1999mean
+cty2008mean<-mean(cars2008$cty, na.rm=TRUE)
+cty1999mean<-mean(cars1999$cty, na.rm=TRUE)
+cty2008mean
+cty1999mean
+hist(cars2008$hwy)
+hist(cars1999$hwy)
+hist(cars2008$cty)
+hist(cars1999$cty)
+summary(cars2008$hwy)
+summary(cars1999$hwy)
+summary(cars2008$cty)
+summary(cars1999$cty)
+#this shows that the cars from 2008 have better hwy gas mileage, while the cars from 1999 have better city gas mileage
+```
+Note: your submission is supposed to be fully reproducible, i.e. the TA and I will 'knit' your submission. Make sure that you don't use any file structure that depends on your computing environment.
